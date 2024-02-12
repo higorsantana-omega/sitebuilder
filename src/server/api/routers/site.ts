@@ -18,5 +18,10 @@ export const siteRouter = createTRPCRouter({
       });
 
       return page.id
+    }),
+  getAll: publicProcedure
+    .query(async ({ ctx }) => {
+      const pages = await ctx.db.page.findMany();
+      return pages
     })
 });
