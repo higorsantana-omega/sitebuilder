@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { Suspense } from "react";
+import { CreateCard } from "~/components/CreateCard";
 import { MainCard } from "~/components/MainCard";
 import { MainCardSkeleton } from "~/components/MainCardSkeleton";
 import { MainCards } from "~/components/MainCards";
@@ -10,8 +11,6 @@ import { Separator } from "~/components/ui/separator";
 import { api } from "~/utils/api";
 
 export default function Home() {
-  const hello = api.post.hello.useQuery({ text: "from tRPC" });
-
   return (
     <>
       <Head>
@@ -33,6 +32,7 @@ export default function Home() {
             <Separator className="my-4" />
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <CreateCard />
               <Suspense
                 fallback={[1, 2, 3].map(el => (
                   <MainCardSkeleton key={el} />
