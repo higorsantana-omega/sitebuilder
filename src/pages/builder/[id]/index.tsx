@@ -1,4 +1,5 @@
 import { useRouter } from "next/router"
+import { Builder } from "~/components/builder"
 import { Designer } from "~/components/designer"
 import { api } from "~/utils/api"
 
@@ -8,9 +9,7 @@ export default function BuilderPage () {
 
   return (
     <main className="flex flex-col min-h-screen min-w-full bg-background max-h-screen">
-      <div className="flex w-full flex-grow items-center justify-center relative overflow-y-auto h-[200px] bg-accent">
-        <Designer />
-      </div>
+      <Builder />
     </main>
   )
 }
