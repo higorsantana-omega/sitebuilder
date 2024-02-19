@@ -1,6 +1,5 @@
 import { useRouter } from "next/router"
 import { Builder } from "~/components/builder"
-import { Designer } from "~/components/designer"
 import { api } from "~/utils/api"
 
 export default function BuilderPage () {
