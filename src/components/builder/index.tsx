@@ -20,14 +20,14 @@ export function Builder () {
   const sensors = useSensors(mouseSensor, touchSensor);
 
   return (
-    <div className="flex w-full flex-grow items-center justify-center relative overflow-y-auto h-[200px] bg-accent">
-      <CanvasProvider>
+    <CanvasProvider>
+      <div className="flex w-full flex-grow items-center justify-center relative overflow-y-auto h-[200px] bg-accent">
         <DndContext sensors={sensors}>
           <Canvas />
 
           <DragOverlayWrapper />
         </DndContext>
-      </CanvasProvider>
-    </div>
+      </div>
+    </CanvasProvider>
   )
 }
