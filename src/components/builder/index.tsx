@@ -2,8 +2,13 @@ import { DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from "@dn
 import { Canvas } from "../canvas";
 import { CanvasProvider } from "../canvas/context";
 import { DragOverlayWrapper } from "../DragOverlayWrapper";
+import { NavBar, type NavBarProps } from "./Navbar";
 
-export function Builder () {
+interface BuilderProps {
+  navBarProps: NavBarProps
+}
+
+export function Builder ({ navBarProps }: BuilderProps) {
   const mouseSensor = useSensor(MouseSensor, {
     activationConstraint: {
       distance: 10
@@ -21,6 +26,8 @@ export function Builder () {
 
   return (
     <CanvasProvider>
+      <NavBar {...navBarProps} />
+
       <div className="flex w-full flex-grow items-center justify-center relative overflow-y-auto h-[200px] bg-accent">
         <DndContext sensors={sensors}>
           <Canvas />
