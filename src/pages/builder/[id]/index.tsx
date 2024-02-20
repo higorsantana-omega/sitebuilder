@@ -8,7 +8,7 @@ export default function BuilderPage () {
 
   return (
     <main className="flex flex-col min-h-screen min-w-full bg-background max-h-screen">
-      <Builder navBarProps={{ siteName: site.name }} />
+      <Builder navBarProps={{ siteName: site!.name, published: false }} />
     </main>
   )
 }
