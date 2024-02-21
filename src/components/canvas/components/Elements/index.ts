@@ -22,7 +22,9 @@ export type ElementPayload = {
     element: ElementInstance
   }>
   elementComponent: React.FC
-  propertiesComponent: React.FC
+  propertiesComponent: React.FC<{
+    elementInstance: ElementInstance
+  }>
 }
 
 type ElementsObj = {
