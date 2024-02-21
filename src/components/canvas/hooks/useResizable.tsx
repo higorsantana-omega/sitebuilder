@@ -11,5 +11,15 @@ export function useResizable () {
     setSizes(newSizes);
   }, [sizes])
 
-  return { sizes, handleResize }
+  const updateSizes = (newIndex: number, size: number) => {
+    setSizes((prev) => prev.filter(prevSize => prevSize !== size))
+
+    setSizes((prev) => {
+      const newSizes = [...prev]
+      newSizes.splice(newIndex, 0, size)
+      return newSizes
+    });
+  }
+
+  return { sizes, handleResize, updateSizes }
 }

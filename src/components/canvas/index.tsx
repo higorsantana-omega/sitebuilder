@@ -10,7 +10,7 @@ import { useResizable } from "./hooks/useResizable"
 
 export function Canvas () {
   const { elements, addElement, selectedElement, setSelectedElement, removeElement } = useCanvas()
-  const { sizes, handleResize } = useResizable()
+  const { sizes, handleResize, updateSizes } = useResizable()
 
   const droppable = useDroppable({
     id: "designer-drop-area",
@@ -68,7 +68,10 @@ export function Canvas () {
           indexForNewElement = overElementIndex + 1
         }
 
+        console.log({ indexForNewElement, activeElement })
+
         addElement(indexForNewElement, activeElement)
+        updateSizes(indexForNewElement, (activeElement?.extraAttributes?.height || 200) as number)
       }
     }
   })
@@ -198,7 +201,7 @@ function DesignerElementWrapper ({
         ref={draggable.setNodeRef}
         {...draggable.listeners}
         {...draggable.attributes}
-        // className="relative mt-4 flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
+        className='h-full mb-4 flex flex-col relative text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset'
         onMouseEnter={() => {
           setMouseIsOver(true)
         }}
@@ -235,8 +238,7 @@ function DesignerElementWrapper ({
         {topHalf.isOver && <div className="absolute top-0 w-full rounded-md h-[7px] bg-primary rounded-b-none" />}
         <div
           className={cn(
-            "flex w-full items-center rounded-md bg-accent/40 px-4 py-2 pointer-events-none opacity-100",
-            `h-[${sizes[index]}px]`,
+            "flex w-full h-full items-center rounded-md bg-accent/70 px-4 py-2 pointer-events-none opacity-100",
             mouseIsOver && "opacity-30",
           )}
         >
