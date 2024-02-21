@@ -2,7 +2,7 @@ import { cn, generateRandomID } from "~/lib/utils"
 import { Sidebar } from "./components/Sidebar"
 import { type DragEndEvent, useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core"
 import { useCanvas } from "./context/useCanvas"
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { type ElementInstance } from "./context"
 import { Elements, type ElementsType } from "./components/Elements"
 import { Resizable } from "re-resizable"
@@ -127,10 +127,19 @@ function DesignerElementWrapper ({
   sizes: number[],
   handleResize (index: number, height: number): void
 }) {
-  const { setSelectedElement, removeElement } = useCanvas()
+  const { setSelectedElement, removeElement, elementUpdated, updateElement } = useCanvas()
 
   const ref = useRef(null)
   const [mouseIsOver, setMouseIsOver] = useState<boolean>(false)
+
+  const currentSize = (sizes[index]! ?? 200)
+
+  useEffect(() => {
+    const elementUpdatedHeight = (elementUpdated?.extraAttributes?.height || 0) as number
+    const heightDiff = elementUpdatedHeight - currentSize
+    handleResize(index, heightDiff)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [elementUpdated])
 
   const topHalf = useDroppable({
     id: element.id + "-top",
@@ -175,7 +184,15 @@ function DesignerElementWrapper ({
         width: 'auto',
         height: sizes[index]! ?? 200
       }}
-      onResizeStop={(e, direction, ref, delta) => handleResize(index, delta.height)}
+      onResizeStop={(e, direction, ref, delta) => {
+        handleResize(index, delta.height)
+        updateElement(element.id, {
+          ...element,
+          extraAttributes: {
+            height: currentSize + delta.height
+          }
+        })
+      }}
     >
       <div
         ref={draggable.setNodeRef}

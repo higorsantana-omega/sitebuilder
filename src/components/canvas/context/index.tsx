@@ -19,6 +19,8 @@ interface CanvasContextValue {
   setSelectedElement: Dispatch<SetStateAction<ElementInstance | null>>
 
   updateElement: (id: string, element: ElementInstance) => void;
+
+  elementUpdated: ElementInstance
 }
 
 export const CanvasContext = createContext({} as CanvasContextValue)
@@ -26,6 +28,7 @@ export const CanvasContext = createContext({} as CanvasContextValue)
 export function CanvasProvider ({ children }: { children: ReactNode }) {
   const [elements, setElements] = useState<ElementInstance[]>([]);
   const [selectedElement, setSelectedElement] = useState<ElementInstance | null>(null)
+  const [elementUpdated, setElementUpdated] = useState<ElementInstance>({} as ElementInstance)
 
   const addElement = (index: number, element: ElementInstance) => {
     setElements((prev) => {
@@ -44,6 +47,9 @@ export function CanvasProvider ({ children }: { children: ReactNode }) {
       const newElements = [...prev];
       const index = newElements.findIndex((el) => el.id === id);
       newElements[index] = element;
+      if (index === newElements.length - 1) {
+        setElementUpdated(element)
+      }
       return newElements;
     });
   };
@@ -60,6 +66,8 @@ export function CanvasProvider ({ children }: { children: ReactNode }) {
         setSelectedElement,
 
         updateElement,
+
+        elementUpdated
       }}
     >
       {children}
